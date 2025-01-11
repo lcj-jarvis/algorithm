@@ -2,11 +2,9 @@ package com.mrlu.base.datastruct.linkedlist;
 
 /**
  * @author 简单de快乐
- * @create 2025-01-10 17:51
- *
- * 单向链表使用的节点
+ * @create 2025-01-11 21:44
  */
-public class HeroNode {
+public class DoubleHeroNode {
 
     public int no;
 
@@ -14,12 +12,14 @@ public class HeroNode {
 
     public String nickName;
 
-    public HeroNode next;
+    public DoubleHeroNode next;
 
-    public HeroNode() {
+    public DoubleHeroNode prev;
+
+    public DoubleHeroNode() {
     }
 
-    public HeroNode(int no, String name, String nickName) {
+    public DoubleHeroNode(int no, String name, String nickName) {
         this.no = no;
         this.name = name;
         this.nickName = nickName;
@@ -27,10 +27,9 @@ public class HeroNode {
 
     @Override
     public String toString() {
-        return "HeroNode{" +
+        return "DoubleHeroNode{" +
                 "no=" + no +
                 ", name='" + name + '\'' +
                 ", nickName='" + nickName + "'}";
     }
-
 }

@@ -5,6 +5,8 @@ import java.util.Stack;
 /**
  * @author 简单de快乐
  * @create 2025-01-10 17:52
+ *
+ * 单向链表
  */
 public class SingleLinkedList {
 
