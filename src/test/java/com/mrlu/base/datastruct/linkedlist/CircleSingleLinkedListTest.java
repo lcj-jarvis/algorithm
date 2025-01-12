@@ -14,7 +14,9 @@ public class CircleSingleLinkedListTest {
         CircleSingleLinkedList list = new CircleSingleLinkedList(5);
         list.list();
         System.out.println("=============================================");
-        list.deQueue(1, 2);
+        //list.deQueue(1, 2);
+
+        list.antiClockWiseDeQueue(1, 2);
     }
 
 }

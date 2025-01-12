@@ -1,5 +1,7 @@
 package com.mrlu.base.datastruct.linkedlist;
 
+import java.util.Stack;
+
 /**
  * @author 简单de快乐
  * @create 2025-01-11 22:45
@@ -62,6 +64,10 @@ public class CircleSingleLinkedList {
             throw new RuntimeException("k或m必须大于或等于1");
         }
 
+        doDeQueue(first, k, m);
+    }
+
+    private void doDeQueue(CircleNode first, int k, int m) {
         // 2、找到环形链表的最后一个节点last
         CircleNode last = null;
         CircleNode temp = first;
@@ -101,4 +107,58 @@ public class CircleSingleLinkedList {
         //5、输出最后剩下的元素
         System.out.println(first);
     }
+
+    /**
+     *  以上出队是按顺时针顺序。如果改成逆时针，要怎么做呢？？？
+     * 逆时针出队主要是节点的顺序由原来的逆时针变化为顺时针，反转即可，出队元素的计算逻辑还是不变。
+     */
+    public void antiClockWiseDeQueue(int k, int m) {
+        // 1、反转单向环形链表。
+        CircleNode first = reverse();
+        // 2、就可以得到一个调整好的环形链表。出队逻辑同未反转前的一样。
+        doDeQueue(first, k, m);
+    }
+
+    /**
+     * 利用栈的完成单链表反转
+     * @return
+     */
+    public CircleNode reverse() {
+        // 1、入栈
+        Stack<CircleNode> stack = new Stack<>();
+        CircleNode temp = this.first.next;
+        do {
+            stack.push(temp);
+            temp = temp.next;
+        } while (temp != first);
+        // 头节点最后入栈。为什么呢？因为单向环形队列反转前后，头节点不变。需要最后入栈
+        stack.push(first);
+
+        // 2、出栈构建反转的单向环形链表
+        CircleNode first = null;
+        CircleNode current = null;
+        while (!stack.isEmpty()) {
+            CircleNode node = stack.pop();
+            if (first == null) {
+                first = node;
+                current = first;
+            } else {
+                current.next = node;
+                node.next = first;
+                current = node;
+            }
+        }
+        return first;
+    }
+
+    public int size() {
+        CircleNode temp = this.first;
+        int count = 0;
+        do {
+            count++;
+            temp = temp.next;
+        } while (temp != first);
+        return count;
+    }
+
 }
