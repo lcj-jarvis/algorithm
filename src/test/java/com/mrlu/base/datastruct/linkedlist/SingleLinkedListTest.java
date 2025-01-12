@@ -208,6 +208,79 @@ public class SingleLinkedListTest {
         SingleLinkedList merge = SingleLinkedList.merge(list1, list2);
         merge.list();
     }
+
+    @Test
+    public void testSum() {
+        //SingleLinkedList list1 = new SingleLinkedList();
+        ////先创建节点
+        //HeroNode hero1 = new HeroNode(2, "宋江", "及时雨");
+        //HeroNode hero2 = new HeroNode(4, "卢俊义", "玉麒麟");
+        //HeroNode hero3 = new HeroNode(3, "吴用", "智多星");
+        ////HeroNode hero4 = new HeroNode(4, "林冲", "豹子头");
+        //list1.add(hero1);
+        //list1.add(hero2);
+        //list1.add(hero3);
+        ////list1.add(hero4);
+        //
+        //
+        //SingleLinkedList list2 = new SingleLinkedList();
+        ////先创建节点
+        //HeroNode hero5 = new HeroNode(5, "宋江01", "及时雨");
+        //HeroNode hero6 = new HeroNode(6, "卢俊义01", "玉麒麟");
+        //HeroNode hero7 = new HeroNode(4, "吴用01", "智多星");
+        //list2.add(hero5);
+        //list2.add(hero6);
+        //list2.add(hero7);
+        //SingleLinkedList sum = SingleLinkedList.sum(list1, list2);
+        //sum.list();
+
+
+
+        //SingleLinkedList list1 = new SingleLinkedList();
+        ////先创建节点
+        //HeroNode hero1 = new HeroNode(0, "宋江", "及时雨");
+        //list1.add(hero1);
+        //
+        //
+        //SingleLinkedList list2 = new SingleLinkedList();
+        ////先创建节点
+        //HeroNode hero5 = new HeroNode(0, "宋江01", "及时雨");
+        //list2.add(hero5);
+        //SingleLinkedList sum = SingleLinkedList.sum(list1, list2);
+        //sum.list();
+
+
+        SingleLinkedList list1 = new SingleLinkedList();
+        //先创建节点
+        HeroNode hero1 = new HeroNode(9, "宋江", "及时雨");
+        HeroNode hero2 = new HeroNode(9, "卢俊义", "玉麒麟");
+        HeroNode hero3 = new HeroNode(9, "吴用", "智多星");
+        HeroNode hero4 = new HeroNode(9, "林冲", "豹子头");
+        HeroNode hero8 = new HeroNode(9, "林冲", "豹子头");
+        HeroNode hero9 = new HeroNode(9, "林冲", "豹子头");
+        HeroNode hero10 = new HeroNode(9, "林冲", "豹子头");
+        list1.add(hero1);
+        list1.add(hero2);
+        list1.add(hero3);
+        list1.add(hero4);
+        list1.add(hero8);
+        list1.add(hero9);
+        list1.add(hero10);
+
+
+        SingleLinkedList list2 = new SingleLinkedList();
+        //先创建节点
+        HeroNode hero5 = new HeroNode(9, "宋江01", "及时雨");
+        HeroNode hero6 = new HeroNode(9, "卢俊义01", "玉麒麟");
+        HeroNode hero7 = new HeroNode(9, "吴用01", "智多星");
+        HeroNode hero11 = new HeroNode(9, "吴用01", "智多星");
+        list2.add(hero5);
+        list2.add(hero6);
+        list2.add(hero7);
+        list2.add(hero11);
+        SingleLinkedList sum = SingleLinkedList.sum(list1, list2);
+        sum.list();
+    }
     /**********************************************单链表常见面试题**************************************************/
 
 }

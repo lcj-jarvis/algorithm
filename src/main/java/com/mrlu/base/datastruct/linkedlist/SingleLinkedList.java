@@ -7,6 +7,14 @@ import java.util.Stack;
  * @create 2025-01-10 17:52
  *
  * 单向链表
+ *
+ * 单链表解题思路
+ * 1、如果给定的链表没有哑节点，则创建一个哑节点，并把哑节点的next指向给定的链表，这样可以方便操作。
+ * 2、借助栈
+ * 3、快慢双指针
+ * 4、构建新链表，使用双指针辅助构建。双指针：固定头节点（哑节点），可移动的当前节点
+ * 5、借助链表节点个数size
+ * 6、递归
  */
 public class SingleLinkedList {
 
@@ -136,7 +144,36 @@ public class SingleLinkedList {
        }
    }
 
-   //（3）单链表的反转【腾讯面试题】
+    // 扩展：删除倒数第k个节点
+    /**
+     * 使用双指针快慢双指针方法
+     * （1）先让first、second指向(虚拟的)头节点head。
+     * （2）然后让first移动k次，得到新的first。
+     * （3）最后同时移动first、second，当first移动到最后一个节点时候，second.next就是要删除的节点。
+     * @param k
+     */
+    public void removeNthFromEnd(int k) {
+        if (k < 1) {
+            throw new RuntimeException("k必须大于或等于1");
+        }
+
+        //（1）先让first、second指向(虚拟的)头节点head。
+        HeroNode first = this.head;
+        HeroNode second = this.head;
+        //（2）然后让first移动k次，得到新的first。
+        for (int i = 0; i < k; i++) {
+            first = first.next;
+        }
+
+        //（3）最后同时移动first、second，当first移动到最后一个节点时候，second.next就是要删除的节点。
+        while (first.next != null) {
+            first = first.next;
+            second = second.next;
+        }
+        second.next = second.next.next;
+    }
+
+    //（3）单链表的反转【腾讯面试题】
    public void reverse() {
        // 注意这里是this.head.next。
        HeroNode temp = this.head.next;
@@ -307,8 +344,10 @@ public class SingleLinkedList {
     public static SingleLinkedList mergeSortedList(SingleLinkedList l1, SingleLinkedList l2) {
         // 创建一个新的链表来存储合并后的结果。
         SingleLinkedList mergedList = new SingleLinkedList();
-        // 使用虚拟头节点来简化合并过程。
+        // 创建固定的头节点
         HeroNode mergedHead = mergedList.head;
+        // 创建可移动的当前节点。初始值为固定的头节点
+        HeroNode current = mergedHead;
 
         // 用两个指针分别遍历两个链表。
         HeroNode temp1 = l1.head.next;
@@ -318,26 +357,86 @@ public class SingleLinkedList {
         while (temp1 != null && temp2 != null) {
             // 比较哪个节点小，设置小的节点到头节点的next
             if (temp1.no <= temp2.no) {
-                // 设置头节点的next为firstTemp
-                mergedHead.next = temp1;
+                // 设置current的next为firstTemp。初始时这里就给固定的头节点设置next了
+                current.next = temp1;
+                // 当前节点后移
+                current = temp1;
                 temp1 = temp1.next;
             } else {
-                // 设置头节点的next为secondTemp
-                mergedHead.next = temp2;
+                // 设置current的next为secondTemp。初始时这里就给固定的头节点设置next了
+                current.next = temp2;
+                // 当前节点后移
+                current = temp2;
                 temp2 = temp2.next;
             }
-            // 虚拟头节点向后移动
-            mergedHead = mergedHead.next;
         }
 
         // 如果其中一个链表还有剩余节点，直接添加到合并链表的末尾。
         if (temp1 != null) {
-            mergedHead.next = temp1;
+            current.next = temp1;
         } else if (temp2 != null) {
-            mergedHead.next = temp2;
+            current.next = temp2;
         }
 
         return mergedList;
+    }
+
+    /**
+    * 两数相加。给定的数字是逆序存在链表中的。
+    *  // 342 + 465 = 807。给定链表如下，输出708
+    *  // 2 -> 4 -> 3
+    *  // 5 -> 6 -> 4
+    *
+    * // 0 + 0 = 0。给定链表如下，输出0
+    * // 0
+    * // 0
+    *
+    * // 9999999  + 9999 = 89990001。给定链表如下，输出89990001
+    * // 9 -> 9 -> 9  -> 9 -> 9 -> 9  -> 9
+    * // 9 -> 9 -> 9  -> 9
+    *
+    * @param l1
+    * @param l2
+    * @return
+    */
+    public static SingleLinkedList sum(SingleLinkedList l1, SingleLinkedList l2) {
+        HeroNode temp1 = l1.head.next;
+        HeroNode temp2 = l2.head.next;
+
+        SingleLinkedList linkedList = new SingleLinkedList();
+        HeroNode resultHead = new HeroNode();
+        linkedList.head = resultHead;
+        int res = 0;
+        while (temp1 != null || temp2 != null) {
+            int rt = res;
+            if (temp1 != null) {
+                rt = rt + temp1.no;
+                temp1 = temp1.next;
+            }
+            if (temp2 != null) {
+                rt = rt + temp2.no;
+                temp2 = temp2.next;
+            }
+
+            // 余数就是相加的结果
+            int mod = rt % 10;
+            // 计算进位
+            res = rt / 10;
+
+            HeroNode node = new HeroNode(mod, "", "");
+            HeroNode temp = resultHead;
+            while (temp.next != null) {
+                temp = temp.next;
+            }
+            temp.next = node;
+
+            // 最后一位。
+            if (temp1 == null && temp2 ==null && res == 1) {
+                node = new HeroNode(res, "", "");
+                temp.next.next = node;
+            }
+        }
+       return linkedList;
     }
     /**********************************************单链表常见面试题**************************************************/
 
