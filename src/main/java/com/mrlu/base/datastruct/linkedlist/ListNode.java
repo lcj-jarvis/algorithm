@@ -121,4 +121,52 @@ public class ListNode {
         }
         return resultHead.next;
     }
+
+    public static ListNode reverseList(ListNode head) {
+        // 1、构建哑节点（养成习惯）
+        head = new ListNode(0, head);
+        ListNode temp = head.next;
+
+        // 2、反转的链表
+        ListNode newHead = null;
+        while (temp != null) {
+            // 暂存当前节点的下一个节点
+            ListNode next = temp.next;
+            // 将当前节点插入新链表
+            temp.next = newHead;
+            // 更新新链表的头
+            newHead = temp;
+            // 继续遍历原链表
+            temp = next;
+        }
+        // 返回反转后的链表
+        return newHead;
+    }
+
+    // 打印链表
+    public static void printList(ListNode head) {
+        while (head != null) {
+            System.out.print(head.val + " ");
+            head = head.next;
+        }
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+        // 构建原链表：1 -> 2 -> 3 -> 4 -> 5
+        ListNode head = new ListNode(1);
+        head.next = new ListNode(2);
+        head.next.next = new ListNode(3);
+        head.next.next.next = new ListNode(4);
+        head.next.next.next.next = new ListNode(5);
+
+        System.out.println("原链表:");
+        printList(head);
+
+        // 反转链表
+        ListNode reversed = reverseList(head);
+
+        System.out.println("反转后的链表:");
+        printList(reversed);
+    }
 }
