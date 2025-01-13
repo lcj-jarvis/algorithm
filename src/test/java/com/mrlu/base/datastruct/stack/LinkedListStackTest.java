@@ -57,4 +57,12 @@ public class LinkedListStackTest {
         System.out.println("程序退出~~~");
     }
 
+    @Test
+    public void singleCalculateTest() {
+        System.out.println(LinkedListStack.calculateWithInfixExpression("3+5-3*2+1"));
+        System.out.println(LinkedListStack.calculateWithInfixExpression("3+2*6-2"));
+        System.out.println(LinkedListStack.calculateWithInfixExpression("300+20*6-20"));
+        System.out.println(LinkedListStack.calculateWithInfixExpression("3*2*3-3/3+1-2*1"));
+    }
+
 }
