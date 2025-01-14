@@ -74,9 +74,10 @@ public class LinkedListStack {
     }
 
     /**
-     * 栈的元素的输出：建立一个临时的反向链表，遍历新的链表
+     * 栈的元素的输出：建立一个临时的反向链表，遍历新的链表。
+     * 反转链表方式一
      */
-    public void list() {
+    /*public void list() {
         // 构建反转后的链表
         Node temp = this.head.next;
 
@@ -90,6 +91,37 @@ public class LinkedListStack {
         }
 
         temp = reverse.next;
+        while (temp != null) {
+            System.out.println(temp);
+            temp = temp.next;
+        }
+    }*/
+
+    /**
+     * 栈的元素的输出：建立一个临时的反向链表，遍历新的链表。
+     * 反转链表方式二
+     */
+    public void list() {
+        // 构建反转后的链表
+        Node temp = this.head.next;
+
+        Node newHead = null;
+        while (temp != null) {
+            // 先记录temp的下一个位置
+            Node next = temp.next;
+
+            // 复制节点的数据
+            Node node = copy(temp);
+            // 设置node的下一个节点为newHead
+            node.next = newHead;
+            // 头节点移动
+            newHead = node;
+
+            // 后移
+            temp = next;
+        }
+
+        temp = newHead;
         while (temp != null) {
             System.out.println(temp);
             temp = temp.next;
