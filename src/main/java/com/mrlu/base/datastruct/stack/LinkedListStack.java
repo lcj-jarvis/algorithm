@@ -143,6 +143,10 @@ public class LinkedListStack {
      * 3.2 如果操作符栈不为空，获取操作符栈顶的操作符、当前操作符的优先级
      * 3.2.1 如果当前操作符的优先级大于操作符栈顶的操作符的优先级，将当前操作符压入操作符栈
      * 3.2.2 如果当前操作符的优先级小于或等于操作符栈顶的操作符的优先级，则需要从数栈中弹出两个数，以及从操作符栈中弹出一个操作符，进行运算，将运算的结果放入数栈。 如果操作符栈为空，则结束并把当前操作符压入操作符栈。否则继续执行上述过程。
+     *
+     * 3.1与3.2总结：循环判断是否满足“栈不为空而且当前操作符的优先级而且小于或等于操作符栈顶的操作符的优先级”，
+     *         满足的话，则进入循环，执行从数栈中弹出两个数，以及从操作符栈中弹出一个操作符，进行运算，将运算的结果放入数栈。
+     *         不满足的话，则不进入循环，把当前操作符压入操作符栈。
      * 4、遍历完成后，从数栈中pop出两个元素，和操作符栈中pop出一个元素，计算出新的结果，再放入数栈，将直到操作符栈为空，在数栈的最后一个元素就是最后的运算结果。
      * @param expression
      * @return
@@ -155,33 +159,46 @@ public class LinkedListStack {
         while (i < arr.length) {
             char element = arr[i];
             if (isOperator(element)) {
-                if (operStack.isEmpty()) {
-                    //3.1 如果操作符栈为空，则把操作符入栈
-                    operStack.push(element);
-                } else {
-                    //3.2 如果操作符栈不为空，获取操作符栈顶的操作符、当前操作符的优先级
-                    boolean calculate = getPriority(element) <= getPriority((char) operStack.peek());
-                    if (!calculate) {
-                        // 3.2.1 如果当前操作符的优先级大于操作符栈顶的操作符的优先级，将当前操作符压入操作符栈
-                        operStack.push(element);
-                    } else {
-                        //3.2.2 如果当前操作符的优先级小于或等于操作符栈顶的操作符的优先级，
-                        //则需要从数栈中弹出两个数，以及从操作符栈中弹出一个操作符，进行运算，将运算的结果放入数栈。
-                        //如果操作符栈为空，则结束并把当前操作符压入操作符栈。否则继续执行上述过程。
-                        while (calculate) {
-                            int op = operStack.pop();
-                            int first = numStack.pop();
-                            int second = numStack.pop();
-                            int result = calculate(first, second, (char) op);
-                            numStack.push(result);
-                            if (operStack.isEmpty()) {
-                                break;
-                            }
-                            calculate = getPriority(element) <= getPriority((char) operStack.peek());
-                        }
-                        operStack.push(element);
-                    }
+                //if (operStack.isEmpty()) {
+                //    //3.1 如果操作符栈为空，则把操作符入栈
+                //    operStack.push(element);
+                //} else {
+                //    //3.2 如果操作符栈不为空，获取操作符栈顶的操作符、当前操作符的优先级
+                //    boolean calculate = getPriority(element) <= getPriority((char) operStack.peek());
+                //    if (!calculate) {
+                //        // 3.2.1 如果当前操作符的优先级大于操作符栈顶的操作符的优先级，将当前操作符压入操作符栈
+                //        operStack.push(element);
+                //    } else {
+                //        //3.2.2 如果当前操作符的优先级小于或等于操作符栈顶的操作符的优先级，
+                //        //则需要从数栈中弹出两个数，以及从操作符栈中弹出一个操作符，进行运算，将运算的结果放入数栈。
+                //        //如果操作符栈为空，则结束并把当前操作符压入操作符栈。否则继续执行上述过程。
+                //        while (calculate) {
+                //            int op = operStack.pop();
+                //            int first = numStack.pop();
+                //            int second = numStack.pop();
+                //            int result = calculate(first, second, (char) op);
+                //            numStack.push(result);
+                //            if (operStack.isEmpty()) {
+                //                break;
+                //            }
+                //            calculate = getPriority(element) <= getPriority((char) operStack.peek());
+                //        }
+                //        operStack.push(element);
+                //    }
+                //}
+
+                //3.1与3.2总结：循环判断是否满足“栈不为空而且当前操作符的优先级而且小于或等于操作符栈顶的操作符的优先级”，
+                //满足的话，则进入循环，执行从数栈中弹出两个数，以及从操作符栈中弹出一个操作符，进行运算，将运算的结果放入数栈。
+                //不满足的话，则不进入循环，把当前操作符压入操作符栈。
+                while (!operStack.isEmpty() &&  getPriority(element) <= getPriority((char) operStack.peek())) {
+                    int op = operStack.pop();
+                    int first = numStack.pop();
+                    int second = numStack.pop();
+                    int result = calculate(first, second, (char) op);
+                    numStack.push(result);
                 }
+                operStack.push(element);
+
                 // 数组后移
                 i++;
             } else {
