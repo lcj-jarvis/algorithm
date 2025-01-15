@@ -19,20 +19,22 @@ import java.util.Arrays;
 public class NQueens {
 
     public static void main(String[] args) {
-        NQueens nQueens = new NQueens();
+        // 设置需要摆放8个皇后
+        NQueens nQueens = new NQueens(8);
         nQueens.put(0);
         // 92种摆法
         System.out.println(count);
     }
 
-    int max = 8;
+    int max;
 
     int[] arr;
 
     static int count = 0;
 
-    public NQueens() {
-        arr = new int[8];
+    public NQueens(int max) {
+        this.max = max;
+        arr = new int[max];
     }
 
 
