@@ -17,7 +17,7 @@ public class QuickSortTest {
         int[] array = {23, 26 , 8, 11, 44, 41, 46, 25, 37, 12};
         //int[] array = {1, 2 , 3, 4, 5, 5, 6, 7, 8, 9};
         //int[] array = {1, 2 , 3, 4, 5, 6, 7, 8, 9};
-        //int[] array = {9, 9 , 8, 7, 6, 5, 4, 3, 2};
+        //int[] array = {9, 9 , 8, 7, 6, 5, 4, 9, 3, 2};
         //int[] array = {9 , 8, 7, 6, 5, 4, 3, 2};
         //int[] array = {10 , 666, 2, 6, 5, 888, -1, -2};
         quickSort(array, 0, array.length - 1);
