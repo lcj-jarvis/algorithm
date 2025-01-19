@@ -104,19 +104,15 @@ public class MergeSort {
         }
 
         //第二步：把左子序列或者右子序列剩余的部分，保存到临时数组temp
-        if (t2 > right) {
-            //如果t2超出右子序列的末端，说明左子序列还有剩余的元素，把左子序列剩余的元素保存到临时数组temp。
-            for (int i = t1;i <= mid; i++) {
-                temp[index] = arr[i];
-                index++;
-            }
+        // 如果左子序列还有剩余的元素，把左子序列剩余的元素保存到临时数组temp。
+        for (int i = t1;i <= mid; i++) {
+            temp[index] = arr[i];
+            index++;
         }
-        if (t1 > mid) {
-            //如果t1超出左子序列的末端，说明右子序列还有剩余的元素，把右子序列剩余的元素保存到临时数组temp。
-            for (int i = t2;i <= right; i++) {
-                temp[index] = arr[i];
-                index++;
-            }
+        // 如果右子序列还有剩余的元素，把右子序列剩余的元素保存到临时数组temp。
+        for (int i = t2;i <= right; i++) {
+            temp[index] = arr[i];
+            index++;
         }
 
         //第三步：把遍历临时数组temp的元素复制到原数组的相应位置
