@@ -173,16 +173,16 @@ public class RadixSort {
 
 
     // 标准的基数排序，非负数情况
-    public static void radixSort(int[] arr) {
+    /*public static void radixSort(int[] arr) {
         doSort(arr);
-    }
+    }*/
 
 
     /**
      * 考虑负数的基数排序
      * @param arr
      */
-    /*public static void radixSort(int[] arr) {
+    public static void radixSort(int[] arr) {
         // 1、寻找数组中的最小值
         int min = arr[0];
         for (int i = 0; i < arr.length; i++) {
@@ -195,11 +195,15 @@ public class RadixSort {
         // 是否有负数
         boolean hasNegative = min < 0;
         // 获取偏移量
-        int offset = hasNegative ? -min : 0;
+        int offset = hasNegative ? Math.abs(min) : 0;
         if (hasNegative) {
             // 所有元素加上偏移量，变成非负数
             for (int i = 0; i < arr.length; i++) {
-                arr[i] = arr[i] + offset;
+                // 有可能超出int的取值范围
+                if (arr[i] < 0) {
+                    //小于0的才加
+                    arr[i] = arr[i] + offset;
+                }
             }
         }
 
@@ -213,7 +217,7 @@ public class RadixSort {
                 arr[i] = arr[i] - offset;
             }
         }
-    }*/
+    }
 
 
 
