@@ -95,7 +95,7 @@ public class SelectSort {
 
 
         // 经过逐步推导，总结规律
-        //for (int t1 = 0; t1 < array.length; t1++) {
+        //for (int t1 = 0; t1 < array.length - 1; t1++) {
         //    int min = array[t1];
         //    int minIndex = t1;
         //    int t2 = t1 + 1;
@@ -125,7 +125,7 @@ public class SelectSort {
             // 假设这是最小的元素所在的索引位置
             int minIndex = i;
 
-            // 找到需要交换的元素
+            // 找到需要交换的元素。即找到更小的元素
             for (int j = i + 1; j < arr.length; j++) {
                 int temp = arr[j];
                 // 比较。大于0，说明temp小于min。

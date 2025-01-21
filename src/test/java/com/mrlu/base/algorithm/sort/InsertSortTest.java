@@ -16,8 +16,9 @@ public class InsertSortTest {
         InsertSort.insertSort(arr1);
         System.out.println(Arrays.toString(arr1));
 
-        int[] arr2 = {101,34,119,1,-1,89};
-        InsertSort.insertSort(arr2);
+        int[] arr2 = {101,34,119,1,-1,89, 101};
+        //InsertSort.insertSort(arr2);
+        InsertSort.sort(arr2);
         System.out.println(Arrays.toString(arr2));
     }
 

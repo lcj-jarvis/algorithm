@@ -36,7 +36,7 @@ public class QuickSort {
         // 初始时候取最左边的值为基准，并认为low的位置是空的位置。
         int pivot = array[low];
         while (low < high) {
-            // high从右往左移动，直到high移动到low位置或找到小于pivot的元素arr[high]。注：等于的情况也要考虑，不然会死循环
+            // high从右往左移动，直到high移动到low位置或找到小于pivot的元素arr[high]
             while (low < high && array[high] >= pivot) {
                 high--;
             }
@@ -47,7 +47,7 @@ public class QuickSort {
             // array[high]搬到空的位置，并认为high的位置是空的位置
             array[low] = array[high];
 
-            // low从左往右移动，直到low移动到high位置或找到大于pivot的元素arr[low]。注：等于的情况也要考虑，不然会死循环
+            // low从左往右移动，直到low移动到high位置或找到大于pivot的元素arr[low]
             while (low < high && array[low] <= pivot) {
                 low++;
             }
@@ -77,14 +77,14 @@ public class QuickSort {
         // 1、选择最左边的值作为基准pivot，pivot=arr[low]。此时已经记录pivot的值，然后我们不用管low位置的值了，把它认为是空的。
         //int pivot = array[low];
         //while (low < high) {
-        //    // 2、high从右往左移动，直到high移动到low位置或找到小于pivot的元素arr[high]。注：等于的情况也要考虑，不然会死循环
+        //    // 2、high从右往左移动，直到high移动到low位置或找到小于pivot的元素arr[high]
         //    while (low < high && compare(array[high], pivot) >= 0) {
         //        high--;
         //    }
         //    // 2.1、array[high]搬到空的位置，并认为high的位置是空的位置
         //    array[low] = array[high];
         //
-        //    // 3、low从左往右移动，直到low移动到high位置或找到大于pivot的元素arr[low]。注：等于的情况也要考虑，不然会死循环
+        //    // 3、low从左往右移动，直到low移动到high位置或找到大于pivot的元素arr[low]
         //    while (low < high && compare(array[low], pivot) <= 0) {
         //        low++;
         //    }
@@ -113,14 +113,14 @@ public class QuickSort {
         // 1、选择最右边的值作为基准pivot，pivot=arr[low]。此时已经记录pivot的值，然后我们不用管low位置的值了，把它认为是空的。
         //int pivot = array[high];
         //while (low < high) {
-        //    // 2、low从左往右移动，直到low移动到high位置或找到大于pivot的元素arr[low]。注：等于的情况也要考虑，不然会死循环
+        //    // 2、low从左往右移动，直到low移动到high位置或找到大于pivot的元素arr[low]
         //    while (low < high && compare(array[low], pivot) <= 0) {
         //        low++;
         //    }
         //    // 2.1、array[low]搬到空的位置，并认为low的位置是空的位置
         //    array[high] = array[low];
         //
-        //    // 3、high从右往左移动，直到high移动到low位置或找到小于pivot的元素arr[high]。注：等于的情况也要考虑，不然会死循环
+        //    // 3、high从右往左移动，直到high移动到low位置或找到小于pivot的元素arr[high]
         //    while (low < high && compare(array[high], pivot) >= 0) {
         //        high--;
         //    }
@@ -155,14 +155,14 @@ public class QuickSort {
         }
 
         while (low < high) {
-            // 2、high从右往左移动，直到high移动到low位置或找到小于pivot的元素arr[high]。注：等于的情况也要考虑，不然会死循环
+            // 2、high从右往左移动，直到high移动到low位置或找到小于pivot的元素arr[high]
             while (low < high && compare(array[high], pivot) >= 0) {
                 high--;
             }
             // 2.1、array[high]搬到空的位置，并认为high的位置是空的位置
             array[low] = array[high];
 
-            // 3、low从左往右移动，直到low移动到high位置或找到大于pivot的元素arr[low]。注：等于的情况也要考虑，不然会死循环
+            // 3、low从左往右移动，直到low移动到high位置或找到大于pivot的元素arr[low]
             while (low < high && compare(array[low], pivot) <= 0) {
                 low++;
             }
@@ -196,6 +196,57 @@ public class QuickSort {
         arr[t1] = arr[t2];
         // 把t1位置的元素设置到t2位置
         arr[t2] = temp;
+    }
+
+    /**
+     * 快速排序-交换式
+     * 选择中间元素作为基准
+     * @param arr
+     * @param low
+     */
+    public static void sort(int[] arr, int low, int high) {
+        // 记录初始位置
+        int originLow = low;
+        int originRight = high;
+
+        int pivot = arr[(low + high) / 2];
+
+        while (low < high) {
+            while (low < high && arr[low] < pivot) {
+                low++;
+            }
+            while (low < high && arr[high] > pivot) {
+                high--;
+            }
+            if (low == high) {
+                break;
+            }
+
+            swap(arr, low, high);
+
+            // （1）避免arr[high]、arr[low]同时等于基准的情况死循环
+            // （2）arr[high]等于基准，arr[low]不等于基准，这时候arr[low]是小于pivot的，往后移动一位也是不影响的
+            // （3）arr[low]等于基准，arr[high]不等于基准，这时候arr[high]是大于pivot的，往前移动一位也是不影响的
+            if (arr[high] == pivot) {
+                low++;
+            }
+            if (arr[low] == pivot) {
+                high--;
+            }
+        }
+        if (low == high) {
+            low++;
+            high--;
+        }
+
+        if (originLow < high) {
+            sort(arr, originLow, high);
+        }
+
+        if (low < originRight) {
+            sort(arr, low, originRight);
+        }
+
     }
 
 }

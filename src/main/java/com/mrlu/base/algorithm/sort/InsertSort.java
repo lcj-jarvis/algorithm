@@ -6,7 +6,7 @@ import java.util.Arrays;
  * @author 简单de快乐
  * @create 2025-01-16 14:41
  *
- * 简单的插入排序
+ * (直接)插入排序
  */
 public class InsertSort {
 
@@ -167,6 +167,7 @@ public class InsertSort {
     }
 
     /**
+     * 直接插入排序-移动式
      * 时间复杂度O(n^2)
      * @param arr
      */
@@ -219,6 +220,19 @@ public class InsertSort {
     }
 
     /**
+     * 直接插入排序-交换式
+     * 效率低于移动式
+     * @param arr
+     */
+    public static void sort(int[] arr) {
+        for (int i = 1; i < arr.length; i++) {
+            for (int j = i - 1; j >= 0 && compare(arr[j], arr[j + 1]) > 0; j--) {
+                swap(arr, j, j + 1);
+            }
+        }
+    }
+
+    /**
      * 比较元素e1和e2。
      * 返回的结果小于0，说明元素e1小于e2。反之，说明元素e1大于e2。
      * @param e1
@@ -227,6 +241,18 @@ public class InsertSort {
      */
     private static int compare(int e1, int e2) {
         return e1 - e2;
+    }
+
+    /**
+     * 数组元素arr[t1]和arr[t2]交换位置
+     */
+    private static void swap(int[] arr, int t1, int t2) {
+        // 先记录t1位置的元素
+        int temp = arr[t1];
+        // 把t2位置的元素设置到t1位置
+        arr[t1] = arr[t2];
+        // 把t1位置的元素设置到t2位置
+        arr[t2] = temp;
     }
 
 }

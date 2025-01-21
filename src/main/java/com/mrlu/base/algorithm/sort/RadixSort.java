@@ -1,6 +1,9 @@
 package com.mrlu.base.algorithm.sort;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author 简单de快乐
@@ -15,7 +18,7 @@ public class RadixSort {
 
         //准备工作
         //（1）一共有十个桶，每个桶是一个一维数组，桶的长度等于数组长度
-        //（2）每个桶有各自的元素位置指针，初始位置为0，每个桶的元素位置指针保存到一个一维数组中(也可以理解为当前桶的元素个数)
+        //（2）每个桶有各自的元素位置指针(也可以理解为当前桶的元素个数)，初始位置为0，每个桶的元素位置指针保存到一个一维数组中
         int[][] buckets = new int[10][arr.length];
         int[] bucketCounts = new int[10];
 
@@ -46,7 +49,7 @@ public class RadixSort {
                 arr[index] = element;
                 index++;
             }
-            // 桶的元素取出完成后，需要将元素位置指针设置为0，因为后续的轮还要使用。
+            //  【重点需要注意】桶的元素取出完成后，需要将元素位置指针设置为0，因为后续的轮还要使用。
             bucketCounts[i] = 0;
         }
         System.out.println(Arrays.toString(arr));
@@ -78,7 +81,7 @@ public class RadixSort {
                 arr[index] = element;
                 index++;
             }
-            // 桶的元素取出完成后，需要将元素位置指针设置为0，因为后续的轮还要使用。
+            //  【重点需要注意】桶的元素取出完成后，需要将元素位置指针设置为0，因为后续的轮还要使用。
             bucketCounts[i] = 0;
         }
         System.out.println(Arrays.toString(arr));
@@ -111,7 +114,7 @@ public class RadixSort {
                 arr[index] = element;
                 index++;
             }
-            // 桶的元素取出完成后，需要将元素位置指针设置为0，因为后续的轮还要使用。
+            //  【重点需要注意】桶的元素取出完成后，需要将元素位置指针设置为0，因为后续的轮还要使用。
             bucketCounts[i] = 0;
         }
         System.out.println(Arrays.toString(arr));
@@ -172,54 +175,13 @@ public class RadixSort {
     }
 
 
-    // 标准的基数排序，非负数情况
-    /*public static void radixSort(int[] arr) {
-        doSort(arr);
-    }*/
-
-
     /**
-     * 考虑负数的基数排序
+     * 标准的基数排序，非负数情况
      * @param arr
      */
     public static void radixSort(int[] arr) {
-        // 1、寻找数组中的最小值
-        int min = arr[0];
-        for (int i = 0; i < arr.length; i++) {
-            if (arr[i] < min) {
-                min = arr[i];
-            }
-        }
-
-        //2、必要时偏移数组元素
-        // 是否有负数
-        boolean hasNegative = min < 0;
-        // 获取偏移量
-        int offset = hasNegative ? Math.abs(min) : 0;
-        if (hasNegative) {
-            // 所有元素加上偏移量，变成非负数
-            for (int i = 0; i < arr.length; i++) {
-                // 有可能超出int的取值范围
-                if (arr[i] < 0) {
-                    //小于0的才加
-                    arr[i] = arr[i] + offset;
-                }
-            }
-        }
-
-        //3、执行标准的基数排序
         doSort(arr);
-
-        // 4、必要时恢复数据
-        if (hasNegative) {
-            // 所有元素减去偏移量，还原成非负数
-            for (int i = 0; i < arr.length; i++) {
-                arr[i] = arr[i] - offset;
-            }
-        }
     }
-
-
 
     /**
      * 时间复杂度：O(k*(n + m))
@@ -292,6 +254,103 @@ public class RadixSort {
     }
 
     /**
+     * 考虑负数的基数排序
+     * 1、把数组分为负数和非负数两个数组
+     * 2、负数数组进行元素偏移
+     * 3、非负数数组使用基数排序
+     * 4、偏移后的负数数组进行基数排序
+     * 5、合并偏移后的负数数组和非负数数组的排序结果
+     * （1）遍历偏移后的负数数组，把偏移后的负数数组元素减去偏移量，然后保存到原数组中
+     * （2）把非负数数组保存到原数组中
+     * @param arr
+     */
+    public static void radixSortWithNegative(int[] arr) {
+        // 1、把数组分为负数和非负数两个数组
+        List<Integer> negatives = new ArrayList<>();
+        List<Integer> nonNegatives = new ArrayList<>();
+        int min = arr[0];
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] < min) {
+                min = arr[i];
+            }
+            if (arr[i] < 0) {
+                negatives.add(arr[i]);
+            } else {
+                nonNegatives.add(arr[i]);
+            }
+        }
+
+        // 2、负数数组进行元素偏移
+        // 是否有负数
+        boolean hasNegative = min < 0;
+        int offset = hasNegative ? -min : 0;
+        if (hasNegative) {
+            negatives = negatives.stream().map(a -> a + offset).collect(Collectors.toList());
+        }
+
+        //3、非负数数组使用基数排序
+        doSort(nonNegatives);
+
+        //4、偏移后的负数数组进行基数排序
+        doSort(negatives);
+
+        //5、合并偏移后的负数数组和非负数数组的排序结果
+        //（1）遍历偏移后的负数数组，把偏移后的负数数组元素减去偏移量，然后保存到原数组中
+        int index = 0;
+        for (int i = 0; i < negatives.size(); i++) {
+            int origin = negatives.get(i) - offset;
+            arr[index++] = origin;
+        }
+        //（2）把非负数数组保存到原数组中
+        for (int i = 0; i < nonNegatives.size(); i++) {
+            int origin = nonNegatives.get(i);
+            arr[index++] = origin;
+        }
+    }
+
+    private static void doSort(List<Integer> arrList) {
+        // 准备工作
+        //（1）一共有十个桶，每个桶是一个一维数组，桶的长度等于数组长度
+        //（2）每个桶有各自的元素位置指针，初始位置为0，每个桶的元素位置指针保存到一个一维数组中(也可以理解为当前桶的元素个数)
+        int[][] buckets = new int[total][arrList.size()];
+        int[] bucketCounts = new int[total];
+
+        // 进行round轮基数排序
+        int round = getRound(arrList);
+        for (int i = 0,n = 1; i < round; i++, n *= 10) {
+            //（1）将每个元素的相应的位数取出，看把元素放在哪个桶。
+            // 第一轮取个位数，第二轮取十位数、第三轮取百位数。。。第n轮需要取出元素的第n位数(n从右往左数) = 元素 * / (10的n-1次方) % 10.
+            for (int j = 0; j < arrList.size(); j++) {
+                int element = arrList.get(j);
+                // 获取桶的索引
+                int bucketIndex = getBucketIndex(n, element);
+                // 保存到桶的相应位置。bucketCounts[bucketIndex]：桶的元素位置指针
+                buckets[bucketIndex][bucketCounts[bucketIndex]] = element;
+                // 相应桶的元素位置指针加一
+                bucketCounts[bucketIndex] = bucketCounts[bucketIndex] + 1;
+            }
+            //（2）从第一个桶开始，按照从头到尾的顺序，获取桶里面的元素保存到原数组中，直到最后一个桶才结束。
+            //    需要注意的是每个桶的元素取出完成后，需要将元素位置指针设置为0，因为后续的轮还要使用。
+            int index = 0;
+            for (int k = 0; k < buckets.length; k++) {
+                // 获取桶
+                int[] bucket = buckets[k];
+                // 获取桶的元素个数
+                int bucketCount = bucketCounts[k];
+                for (int j = 0; j < bucketCount; j++) {
+                    // 获取桶里的元素
+                    int element = bucket[j];
+                    // 重新保存到原数组. 注意这里要用set方法，不要用add方法
+                    arrList.set(index, element);
+                    index++;
+                }
+                // 桶的元素取出完成后，需要将元素位置指针设置为0，因为后续的轮还要使用。
+                bucketCounts[k] = 0;
+            }
+        }
+    }
+
+    /**
      * 获取桶的索引
      */
     private static int getBucketIndex(int n, int element) {
@@ -322,6 +381,25 @@ public class RadixSort {
         for (int i = 0; i < arr.length; i++) {
             if (arr[i] > max) {
                 max = arr[i];
+            }
+        }
+        // 获取最大的数的位数做为轮数。这里这个方式有点巧妙了
+        return (max + "").length();
+    }
+
+    private static int getRound(List<Integer> arrList) {
+        if (arrList.size() == 0) {
+            return 0;
+        }
+
+        //需要进行多少轮呢？？？
+        //答：需要进行的轮数等于数组中最大的数的位数。如数组最大的数有3位，就需要三轮，有6位就需要6轮。
+        //(1)找到数组最大的数
+        int max = arrList.get(0);
+        for (int i = 0; i < arrList.size(); i++) {
+            Integer el = arrList.get(i);
+            if (el > max) {
+                max = el;
             }
         }
         // 获取最大的数的位数做为轮数。这里这个方式有点巧妙了

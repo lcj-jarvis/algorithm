@@ -18,5 +18,15 @@ public class SelectSortTest {
         selectSort(arr1);
         System.out.println("最终结果：");
         System.out.println(Arrays.toString(arr1));
+
+        int[] arr2 = {1, 2, 3, 4 , 5, 6};
+        selectSort(arr2);
+        System.out.println("最终结果：");
+        System.out.println(Arrays.toString(arr2));
+
+        int[] arr3 = {9, 8, 7, 6 , 5};
+        selectSort(arr3);
+        System.out.println("最终结果：");
+        System.out.println(Arrays.toString(arr3));
     }
 }
