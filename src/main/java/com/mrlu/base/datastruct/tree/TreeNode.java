@@ -89,4 +89,85 @@ public class TreeNode {
         System.out.println(this);
     }
 
+    /**
+     * 前序遍历查找
+     */
+    public TreeNode preOrderSearch(int no) {
+        //（1）如果当前节点的no等于查找的no，则返回当前节点，否则，继续往下执行
+        System.out.println("前序遍历查找~~~");
+        if (this.no == no) {
+            return this;
+        }
+
+        //（2）如果当前节点的左子树不等于空，则递归左子树进行查找，如果查找的结果不为空，则返回，否则，继续往下执行
+        TreeNode result = null;
+        if (this.left != null) {
+            result = this.left.preOrderSearch(no);
+        }
+        if (result != null) {
+            return result;
+        }
+
+        //（3）如果当前节点的右子树不等于空，则递归右子树进行查找，如果查找的结果不为空，则返回，否则，返回null
+        if (this.right != null) {
+            result = this.right.preOrderSearch(no);
+        }
+        return result;
+    }
+
+    /**
+     * 中序遍历查找
+     */
+    public TreeNode infixOrderSearch(int no) {
+        //（1）如果当前节点的左子树不等于空，则递归左子树进行查找，如果查找的结果不为空，则返回，否则，继续往下执行
+        TreeNode result = null;
+        if (this.left != null) {
+            result = this.left.infixOrderSearch(no);
+        }
+        if (result != null) {
+            return result;
+        }
+
+        //（2）如果当前节点的no等于查找的no，则返回当前节点，否则，继续往下执行
+        System.out.println("中序遍历查找~~~");
+        if (this.no == no) {
+            return this;
+        }
+
+        //（3）如果当前节点的右子树不等于空，则递归右子树进行查找，如果查找的结果不为空，则返回，否则，返回null
+        if (this.right != null) {
+            result = this.right.infixOrderSearch(no);
+        }
+        return result;
+    }
+
+    /**
+     * 后序遍历查找
+     */
+    public TreeNode postOrderSearch(int no) {
+        //（1）如果当前节点的左子树不等于空，则递归左子树进行查找，如果查找的结果不为空，则返回，否则，继续往下执行
+        TreeNode result = null;
+        if (this.left != null) {
+            result = this.left.postOrderSearch(no);
+        }
+        if (result != null) {
+            return result;
+        }
+
+        //（2）如果当前节点的右子树不等于空，则递归右子树进行查找，如果查找的结果不为空，则返回，否则，继续往下执行
+        if (this.right != null) {
+            result = this.right.postOrderSearch(no);
+        }
+        if (result != null) {
+            return result;
+        }
+
+        System.out.println("后序遍历查找~~~");
+        //（3）如果当前节点的no等于查找的no，则返回当前节点，否则，返回null
+        if (this.no == no) {
+            result = this;
+        }
+        return result;
+    }
+
 }

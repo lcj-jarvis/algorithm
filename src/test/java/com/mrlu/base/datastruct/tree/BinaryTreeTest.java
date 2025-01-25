@@ -17,6 +17,35 @@ public class BinaryTreeTest {
      */
     @Test
     public void test() {
+        BinaryTree tree = getBinaryTree();
+
+        // 1 2 3 4 5 6
+        System.out.println("前序遍历：");
+        tree.preOrder();
+
+        // 2 1 4 3 6 5
+        System.out.println("中序遍历：");
+        tree.infixOrder();
+
+        // 2 4 6 5 3 1
+        System.out.println("后序遍历：");
+        tree.postOrder();
+    }
+
+    @Test
+    public void testSearch() {
+        BinaryTree tree = getBinaryTree();
+        System.out.println("前序遍历查找：");
+        System.out.println(tree.preOrderSearch(9));
+
+        System.out.println("中序遍历查找：");
+        System.out.println(tree.infixOrderSearch(1));
+
+        System.out.println("后序遍历查找：");
+        System.out.println(tree.postOrderSearch(2));
+    }
+
+    private BinaryTree getBinaryTree() {
         // 先手动构建树
         TreeNode n1 = new TreeNode(1);
         TreeNode n2 = new TreeNode(2);
@@ -30,17 +59,6 @@ public class BinaryTreeTest {
         n3.setRight(n5);
         n5.setLeft(n6);
         BinaryTree tree = new BinaryTree(n1);
-
-        // 1 2 3 4 5 6
-        System.out.println("前序遍历：");
-        tree.preOrder();
-
-        // 2 1 4 3 6 5
-        System.out.println("中序遍历：");
-        tree.infixOrder();
-
-        // 2 4 6 5 3 1
-        System.out.println("后序遍历：");
-        tree.postOrder();
+        return tree;
     }
 }

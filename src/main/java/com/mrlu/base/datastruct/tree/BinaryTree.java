@@ -44,5 +44,38 @@ public class BinaryTree {
         }
     }
 
+    /**
+     * 前序遍历查找
+     */
+    public TreeNode preOrderSearch(int no) {
+        TreeNode result = null;
+        if (root != null) {
+            result = root.preOrderSearch(no);
+        }
+        return result;
+    }
+
+    /**
+     * 中序遍历查找
+     */
+    public TreeNode infixOrderSearch(int no) {
+        TreeNode result = null;
+        if (root != null) {
+            result = root.infixOrderSearch(no);
+        }
+        return result;
+    }
+
+    /**
+     * 后序遍历查找
+     */
+    public TreeNode postOrderSearch(int no) {
+        TreeNode result = null;
+        if (root != null) {
+            result = root.postOrderSearch(no);
+        }
+        return result;
+    }
+
 
 }
