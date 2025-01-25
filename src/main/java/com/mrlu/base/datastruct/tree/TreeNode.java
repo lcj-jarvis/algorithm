@@ -24,12 +24,28 @@ public class TreeNode {
         this.no = no;
     }
 
+    public int getNo() {
+        return no;
+    }
+
     public void setLeft(TreeNode left) {
         this.left = left;
     }
 
     public void setRight(TreeNode right) {
         this.right = right;
+    }
+
+    public void setNo(int no) {
+        this.no = no;
+    }
+
+    public TreeNode getLeft() {
+        return left;
+    }
+
+    public TreeNode getRight() {
+        return right;
     }
 
     @Override
@@ -168,6 +184,102 @@ public class TreeNode {
             result = this;
         }
         return result;
+    }
+
+
+    /**
+    *  3、因为二叉树是单向的，所以我们是要判断当前节点的子节点是否为需要删除的节点，而不是判断当前节点是否为需要删除的节点
+    *  4、如果当前节点的左子节点不为空，而且是要删除的节点，则设置当前节点的左子节点为空，返回true表示删除成功，否则继续往下执行
+    *  5、如果当前节点的右子节点不为空，而且是要删除的节点，则设置当前节点的右子节点为空，返回true表示删除成功，否则继续往下执行
+    *  6、如果当前节点的左子节点不为空，则进行递归删除。如果删除成功，直接结束，否则继续往下执行
+    *  7、如果当前节点的右子节点不为空，则进行递归删除
+    */
+    public boolean simpleDeleteNode(int no) {
+        if (this.left != null && this.left.no == no) {
+            this.left = null;
+            return true;
+        }
+        if (this.right != null && this.right.no == no) {
+            this.right = null;
+            return true;
+        }
+
+        boolean success = false;
+        if (this.left != null) {
+            success = this.left.simpleDeleteNode(no);
+        }
+        if (!success && this.right != null) {
+            success = this.right.simpleDeleteNode(no);
+        }
+        return success;
+    }
+
+
+    /**
+    * 3、如果当前节点的左子节点不为空，而且是要删除的节点，则进行以下操作
+    *(1)如果当前节点的左子节点的左子节点不为空，右子节点为空，设置当前节点的左子节点的左子节点为当前节点的左子节点
+    *(2)如果当前节点的左子节点的右子节点不为空，左子节点为空，设置当前节点的左子节点的右子节点为当前节点的左子节点
+    *(3)如果当前节点的左子节点的左子节点、右子节点都不为空，设置当前节点的左子节点的左子节点为当前节点的左子节点，
+    *     然后把当前节点的左子节点的右子节点挂到新的当前节点的左子节点的最右边的根部。
+    *(4)如果当前节点的左子节点的左子节点、右子节点都为空，则设置当前节点的左子节点为空
+    *
+    * 4、如果当前节点的右子节点不为空，而且是要删除的节点，则进行以下操作
+    *(1)如果当前节点的右子节点的左子节点不为空，右子节点为空，设置当前节点的右子节点的左子节点为当前节点的右子节点
+    *(2)如果当前节点的右子节点的右子节点不为空，左子节点为空，设置当前节点的右子节点的右子节点为当前节点的右子节点
+    *(3)如果当前节点的右子节点的左子节点、右子节点都不为空，设置当前节点的右子节点的左子节点为当前节点的右子节点，
+    *     然后把当前节点的左子节点的右子节点挂到新的当前节点的左子节点的最右边的根部。
+    *(4)如果当前节点的左子节点的左子节点、右子节点都为空，则设置当前节点的右子节点为空
+    *
+    */
+    public boolean deleteNode(int no) {
+        if (this.left != null && this.left.no == no) {
+            if (this.left.left != null && this.left.right != null) {
+                TreeNode newLeft = this.left.left;
+                TreeNode temp = newLeft;
+                while (temp.right != null) {
+                    temp = temp.right;
+                }
+                temp.right = this.left.right;
+
+                this.left = newLeft;
+            }  else if (this.left.left != null) {
+               this.left = this.left.left;
+            }  else if (this.left.right != null) {
+                this.left = this.left.right;
+            }  else {
+                this.left = null;
+            }
+            return true;
+        }
+
+        if (this.right != null && this.right.no == no) {
+            if (this.right.left != null && this.right.right != null) {
+                TreeNode newLeft = this.right.left;
+                TreeNode temp = newLeft;
+                while (temp.right != null) {
+                    temp = temp.right;
+                }
+                temp.right = this.right.right;
+
+                this.right = newLeft;
+            }  else if (this.right.left != null) {
+                this.right = this.right.left;
+            }  else if (this.right.right != null) {
+                this.right = this.right.right;
+            }  else {
+                this.right = null;
+            }
+            return true;
+        }
+
+        boolean success = false;
+        if (this.left != null) {
+            success = this.left.deleteNode(no);
+        }
+        if (!success && this.right != null) {
+            success = this.right.deleteNode(no);
+        }
+        return success;
     }
 
 }
