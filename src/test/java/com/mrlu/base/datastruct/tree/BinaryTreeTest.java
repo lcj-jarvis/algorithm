@@ -45,13 +45,20 @@ public class BinaryTreeTest {
         System.out.println(tree.postOrderSearch(2));
     }
 
+    /**
+     * 测试二叉树的删除，树的结构如下
+     *          1
+     *    2          3
+     * 10   11    4       7
+     *          5   6   8   9
+     */
     @Test
     public void testSimpleDeleteNode() {
-        BinaryTree binaryTree = getBinaryTree();
+        BinaryTree binaryTree = getBinaryTreeForDelete();
         System.out.println("前序遍历：");
         binaryTree.preOrder();
 
-        binaryTree.simpleDeleteNode(5);
+        binaryTree.simpleDeleteNode(3);
         System.out.println("删除后：");
         binaryTree.preOrder();
     }
@@ -102,7 +109,7 @@ public class BinaryTreeTest {
         System.out.println("前序遍历：");
         binaryTree.preOrder();
 
-        System.out.println(binaryTree.deleteNode(100));
+        System.out.println(binaryTree.deleteNode(3));
         System.out.println("删除后：");
         binaryTree.preOrder();
     }
