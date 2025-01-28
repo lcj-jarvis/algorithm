@@ -257,6 +257,57 @@ public class SortUtil {
         }
     }
 
+    /**
+     * 堆排序
+     * @param arr
+     * @param comparator
+     * @param <T>
+     */
+    public static <T> void heapSort(T[] arr, Comparator<T> comparator) {
+        //1、无序序列构建小根堆
+        for (int i = arr.length / 2 - 1; i >= 0; i--) {
+            adjust(arr, i, arr.length, comparator);
+        }
+
+        // 2、堆顶元素和堆的最后一个位置元素交换，即出堆与用堆的最后一个元素作为根节点。
+        // 剩余未出堆的元素作为待构建堆的无序序列，使用根节点进行调整建堆，再重复取出(交换)调整....直到待构建堆的无序序列的节点个数为0
+        for (int i = arr.length - 1; i > 0; i--) {
+            // 堆顶元素和堆的最后一个位置元素交换，即出堆与用堆的最后一个元素作为根节点
+            swap(arr, 0, i);
+
+            // 待参与构建堆的无序序列节点个数
+            int size = i;
+            // 使用根节点进行调整建堆
+            adjust(arr, 0, size, comparator);
+        }
+    }
+
+    /**
+     * 调整index位置的子树为大根堆，子树的结点个数为size。
+     * 优化后：
+     * 不需要每次交换。初始时候只需要记录调整的节点，用于比较，然后最后把调整的节点设置到最终位置即可
+     *
+     * @param arr
+     * @param index 调整的位置(索引)
+     * @param size  待参与构建堆的无序序列节点个数
+     */
+    private static <T> void adjust(T[] arr, int index, int size, Comparator<T> comparator) {
+        T temp = arr[index];
+        for (int i = (2 * index + 1); i < size; i = 2 * i + 1) {
+            int right = i + 1;
+            if (right < size && comparator.compare(arr[right], arr[i]) > 0) {
+                i = i + 1;
+            }
+            if (comparator.compare(arr[i], temp) > 0) {
+                arr[index] = arr[i];
+                index = i;
+            } else {
+                break;
+            }
+        }
+        arr[index] = temp;
+    }
+
     // 基数排序暂时不支持
 
     /**

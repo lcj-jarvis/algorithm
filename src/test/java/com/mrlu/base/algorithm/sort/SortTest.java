@@ -164,6 +164,26 @@ public class SortTest {
         Arrays.stream(heroNodes).forEach(System.out::println);
     }
 
+    @Test
+    public void testHeapSort() {
+        HeroNode[] heroNodes = mockData();
+        System.out.println("排序前的结果");
+        Arrays.stream(heroNodes).forEach(System.out::println);
+        // 先根据no升序，再根据name升序
+        SortUtil.heapSort(heroNodes, Comparator.comparing(HeroNode::getNo).thenComparing(HeroNode::getName));
+
+        // 先根据no升序，再根据name降序
+        //SortUtil.heapSort(heroNodes, Comparator.comparing(HeroNode::getNo).thenComparing((t1, t2) -> t2.getName().compareTo(t1.getName())));
+
+        // 先根据no序号降序，再根据name升序
+        //SortUtil.heapSort(heroNodes, Comparator.comparing(HeroNode::getNo).reversed().thenComparing(HeroNode::getName));
+
+        // 先根据no序号降序，再根据name降序
+        //SortUtil.heapSort(heroNodes, Comparator.comparing(HeroNode::getNo).thenComparing(HeroNode::getName).reversed());
+
+        System.out.println("排序后的结果");
+        Arrays.stream(heroNodes).forEach(System.out::println);
+    }
 
 
     @Test
