@@ -1,5 +1,7 @@
 package com.mrlu.base.datastruct.tree;
 
+import java.util.Stack;
+
 /**
  * @author 简单de快乐
  * @create 2025-01-24 22:12
@@ -136,5 +138,85 @@ public class BinaryTree {
         return this.root.deleteNode(no);
     }
 
+    //====================================================================================
+    /**
+     * 前序遍历
+     */
+    public void preOrderUseStack() {
+        TreeNode node = this.root;
+        if (node == null) {
+            return;
+        }
+
+        Stack<TreeNode> stack = new Stack<>();
+        stack.push(node);
+        while (!stack.isEmpty()) {
+            node = stack.pop();
+            System.out.println(node);
+            if (node.getRight() != null) {
+                stack.push(node.getRight());
+            }
+            if (node.getLeft() != null) {
+                stack.push(node.getLeft());
+            }
+        }
+    }
+
+    /**
+     * 中序遍历
+     *
+     */
+    public void infixOrderUseStack() {
+        TreeNode node = this.root;
+        if (node == null) {
+            return;
+        }
+
+        Stack<TreeNode> stack = new Stack<>();
+        // Traverse the tree
+        while (node != null || !stack.isEmpty()) {
+            // Reach the leftmost node of the current node
+            while (node != null) {
+                stack.push(node);
+                node = node.getLeft();
+            }
+
+            // Pop the top node from the stack and visit it
+            node = stack.pop();
+            System.out.println(node);
+
+            // Now, visit the right subtree of the node
+            node = node.getRight();
+        }
+    }
+
+    /**
+     * 后序遍历
+     */
+    public void postOrderUseStack() {
+        TreeNode node = this.root;
+        if (node == null) {
+            return;
+        }
+
+        Stack<TreeNode> stack = new Stack<>();
+        // 记录输出结果
+        Stack<TreeNode> output = new Stack<>();
+        stack.push(node);
+        while (!stack.isEmpty()) {
+            node = stack.pop();
+            // root right left
+            output.push(node);
+            if (node.getLeft() != null) {
+                stack.push(node.getLeft());
+            }
+            if (node.getRight() != null) {
+                stack.push(node.getRight());
+            }
+        }
+        while (!output.isEmpty()) {
+            System.out.println(output.pop());
+        }
+    }
 
 }

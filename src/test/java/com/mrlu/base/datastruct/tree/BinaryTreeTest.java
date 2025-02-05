@@ -33,6 +33,23 @@ public class BinaryTreeTest {
     }
 
     @Test
+    public void testOrder() {
+        BinaryTree tree = getBinaryTree();
+
+        // 1 2 3 4 5 6
+        System.out.println("前序遍历：");
+        tree.preOrderUseStack();
+
+        // 2 1 4 3 6 5
+        System.out.println("中序遍历：");
+        tree.infixOrderUseStack();
+
+        // 2 4 6 5 3 1
+        System.out.println("后序遍历：");
+        tree.postOrderUseStack();
+    }
+
+    @Test
     public void testSearch() {
         BinaryTree tree = getBinaryTree();
         System.out.println("前序遍历查找：");
