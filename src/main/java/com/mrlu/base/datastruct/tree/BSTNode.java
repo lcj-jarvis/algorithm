@@ -54,7 +54,7 @@ public class BSTNode {
      *  （1）如果node为空，直接结束
      *  （2）如果node结点的value小于当前结点的value，则执行以下逻辑：
      *       如果当前结点的left等于null，则设置node为当前结点的left。反之，使用当前结点的left，并传入node，递归调用添加方法
-     *  （3）反之，说明当前node结点的大于等于当前结点的value，则执行以下逻辑：
+     *  （3）反之，说明node结点的value大于等于当前结点的value，则执行以下逻辑：
      *       如果当前结点的right等于null，则设置node为当前结点的right。反之，使用当前结点的right，并传入node，递归调用添加方法
      * @param node
      */
@@ -93,9 +93,9 @@ public class BSTNode {
 
     /**
      * 根据value查找某个结点。
-     * 具体逻辑：传入需要查找的value，如果当前结点的value等于value，则返回当前结点。
-     *        如果value小于当前结点的value，当前结点的left为null，则返回null，否则递归查询当前结点的左子树。
-     *        如果value大于等于当前结点的value，当前结点的right为null，则返回null，否则递归查询当前结点的右子树。
+     * 具体逻辑：传入需要查找的value，如果当前结点的value等于查找的value，则返回当前结点。
+     *        如果查找的value小于当前结点的value，当前结点的left为null，则返回null，否则递归查询当前结点的左子树。
+     *        如果查找的value大于等于当前结点的value，当前结点的right为null，则返回null，否则递归查询当前结点的右子树。
      * @param value
      * @return
      */

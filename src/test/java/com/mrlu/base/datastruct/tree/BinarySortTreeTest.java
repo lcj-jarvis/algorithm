@@ -33,7 +33,7 @@ public class BinarySortTreeTest {
     }
 
     @Test
-    public void testSearchParents() {
+    public void testSearchParent() {
         int[] array = {7,3,10,12,5,1,9, 8, 2, 11, 13};
         BinarySortTree tree = new BinarySortTree();
         for (int el : array) {
