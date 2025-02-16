@@ -19,7 +19,7 @@ public class BinarySearch {
     public static void main(String[] args) {
         int[] arr = {1,2,2,3,4,5,5,5,6,6,7,8,9};
         System.out.println(binarySearch(arr, 0, arr.length - 1, 7));
-        System.out.println(search(arr, 0, arr.length - 1, 7));
+        System.out.println(search(arr,  7));
         System.out.println(binarySearchAll(arr, 0, arr.length - 1, 6));
     }
 
@@ -52,12 +52,12 @@ public class BinarySearch {
     /**
      * 二分查找-非递归版本
      * @param arr
-     * @param left
-     * @param right
      * @param element
      * @return
      */
-    public static int search(int[] arr, int left, int right, int element) {
+    public static int search(int[] arr, int element) {
+        int left = 0;
+        int right = arr.length - 1;
         while (left <= right) {
             int mid = (left + right) / 2;
             if (arr[mid] > element) {
