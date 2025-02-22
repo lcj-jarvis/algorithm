@@ -3,8 +3,7 @@ package com.mrlu.base.algorithm.graph;
 import com.mrlu.base.algorithm.prim.MGraph;
 import org.junit.jupiter.api.Test;
 
-import static com.mrlu.base.algorithm.prim.PrimAlgorithm.prefPrim;
-import static com.mrlu.base.algorithm.prim.PrimAlgorithm.prim;
+import static com.mrlu.base.algorithm.prim.PrimAlgorithm.*;
 
 /**
  * @author 简单de快乐
@@ -28,10 +27,14 @@ public class PrimAlgorithmTest {
                 {2,3,Integer.MAX_VALUE,Integer.MAX_VALUE,4,6,Integer.MAX_VALUE},};
         //创建MGraph 对象
         MGraph graph = new MGraph(data, weight);
-        prim(graph, 0);
-        //prim(graph, 1);
-
+        //prim(graph, 0);
+        prim(graph, 1);
+        System.out.println("<==================================>");
         // 权值总和是一样的
         prefPrim(graph, 1);
+        System.out.println("<==================================>");
+        prefPrimV2(graph, 1);
+        System.out.println("<==================================>");
+        primUseBFS(graph, 1);
     }
 }

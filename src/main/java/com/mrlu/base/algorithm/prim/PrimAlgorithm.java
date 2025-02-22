@@ -1,6 +1,8 @@
 package com.mrlu.base.algorithm.prim;
 
 import java.util.Arrays;
+import java.util.Comparator;
+import java.util.PriorityQueue;
 
 public class PrimAlgorithm {
 
@@ -81,8 +83,9 @@ public class PrimAlgorithm {
         int[] parent = new int[graph.size];
         //4、初始时，设置minDist所有为元素最大权值INF（便于比较）
         Arrays.fill(minDist, INF);
-        //5、初始时从当前位置v开始寻找，设置v的父顶点parent[v] = -1，并设置该顶点为已访问，即isVisited[v]=true
-        parent[v] = -1;
+        Arrays.fill(parent, -1);
+        //5、初始时从当前位置v开始寻找，设置起始顶点的距离设置为0，并设置该顶点为已访问，即isVisited[v]=true
+        minDist[v] = 0;
         isVisited[v]=true;
 
         //二、获取所有的边
@@ -100,7 +103,50 @@ public class PrimAlgorithm {
                 }
             }
 
-            //2、选择最小权值的边，并更新当前顶点v，并将其标记为已访问。
+            //2、选择最小权值边的顶点，更新为当前顶点v，并标记为已访问。
+            int min = INF;
+            for (int j = 0; j < minDist.length; j++) {
+                if (!isVisited[j] && minDist[j] < min) {
+                    min = minDist[j];
+                    // 更新当前顶点
+                    v = j;
+                }
+            }
+            isVisited[v] = true;
+        }
+
+        // 三、输出mst的内容
+        for (int i = 0; i < parent.length; i++) {
+            if (parent[i] != -1) {
+                System.out.println("边<" + graph.vertexs[parent[i]] + " - " + graph.vertexs[i] + "> 权值：" + graph.matrix[parent[i]][i]);
+            }
+        }
+    }
+
+    /**
+     * 优化后的时间复杂度为O(n ^ 2)
+     * @param graph
+     * @param v
+     */
+    public static void prefPrimV2(MGraph graph, int v) {
+        //一、准备工作
+        //1、创建数组boolean[] isVisited = new boolean[graph.size]，记录顶点的访问情况，isVisited[i] 等于true，说明下标为i的顶点已经访问过
+        boolean[] isVisited = new boolean[graph.size];
+        //2、创建数组int[] minDist = new int[graph.size]，记录从已访问的顶点出发，找到所有的未访问结点，与未访问结点相连的最小权值的边。即minEst[i]，表示与下标为i的顶点相连的最小权值边的权值
+        int[] minDist = new int[graph.size];
+        //3、创建数组int[] parent = new int[graph.size]，记录下标为i的顶点的父顶点。
+        //结合minEst数组使用，parent[i]表示与“索引为i的顶点”相连的最小权值边的起点下标，或者说“下标为i的顶点”的最小权值边的起点下标为parent[i]，终点下标为i，最小权值为min[i]
+        int[] parent = new int[graph.size];
+        //4、初始时，设置minDist所有为元素最大权值INF（便于比较）
+        Arrays.fill(minDist, INF);
+        Arrays.fill(parent, -1);
+        //5、初始时从当前位置v开始寻找，设置起始顶点的距离设置为0，并设置该顶点为已访问，即isVisited[v]=true
+        minDist[v] = 0;
+        isVisited[v]=true;
+
+        //二、获取所有的边
+        for (int i = 0; i < graph.size - 1; i++) {
+            //1、选择最小权值边的顶点，更新为当前顶点v，并标记为已访问。
             int min = INF;
             for (int j = 0; j < minDist.length; j++) {
                 if (!isVisited[j] && minDist[j] < min) {
@@ -111,8 +157,63 @@ public class PrimAlgorithm {
             }
             isVisited[v] = true;
 
-            //3、通过起点parent[v]和终点v，输出最小权值边graph.matrix[parent[v]][v]
-            //System.out.println("边<" + graph.vertexs[parent[i]] + " - " + graph.vertexs[i] + "> 权值：" + graph.matrix[parent[i]][i]);
+            // 2、更新与u相邻的顶点的最小边的权值
+            for (int j = 0; j < graph.vertexs.length; j++) {
+                // 如果没有访问过，而且找到的边的权值小于最小权值，则更新最小权值的边，记录起点和终点
+                if (!isVisited[j] && graph.matrix[v][j] < minDist[j]) {
+                    minDist[j] = graph.matrix[v][j];
+                    parent[j] = v;
+                }
+            }
+        }
+
+        // 三、输出mst的内容
+        for (int i = 0; i < parent.length; i++) {
+            if (parent[i] != -1) {
+                System.out.println("边<" + graph.vertexs[parent[i]] + " - " + graph.vertexs[i] + "> 权值：" + graph.matrix[parent[i]][i]);
+            }
+        }
+    }
+
+    /**
+     * 使用优先级队列和BFS完成
+     * @param graph
+     * @param v
+     */
+    public static void primUseBFS(MGraph graph, int v) {
+        //一、准备工作
+        //1、创建数组boolean[] isVisited = new boolean[graph.size]，记录顶点的访问情况，isVisited[i] 等于true，说明下标为i的顶点已经访问过
+        boolean[] isVisited = new boolean[graph.size];
+        //2、创建数组int[] minDist = new int[graph.size]，记录从已访问的顶点出发，找到所有的未访问结点，与未访问结点相连的最小权值的边。即minEst[i]，表示与下标为i的顶点相连的最小权值边的权值
+        int[] minDist = new int[graph.size];
+        //3、创建数组int[] parent = new int[graph.size]，记录下标为i的顶点的父顶点。
+        //结合minEst数组使用，parent[i]表示与“索引为i的顶点”相连的最小权值边的起点下标，或者说“下标为i的顶点”的最小权值边的起点下标为parent[i]，终点下标为i，最小权值为min[i]
+        int[] parent = new int[graph.size];
+        //4、初始时，设置minDist所有为元素最大权值INF（便于比较）
+        Arrays.fill(minDist, INF);
+        Arrays.fill(parent, -1);
+
+        // 创建优先级队列，权值越小，排在越前。存储权值最小的边的索引
+        PriorityQueue<Integer> queue = new PriorityQueue<>(Comparator.comparing(i -> minDist[i]));
+        queue.offer(v);
+        while (!queue.isEmpty()) {
+            // 选择”与最小权值的边连接的未访问顶点“作为当前顶点，并记录当前顶点为已访问
+
+            // 1、选择权值最小的顶点，作为当前顶点，并标记为已访问
+            v = queue.poll();
+            isVisited[v] = true;
+
+            // 2、更新 与当前顶点 相连的而且未访问过顶点 的最小边的权值
+            for (int j = 0; j < graph.vertexs.length; j++) {
+                 // 如果没有访问过，而且找到的边的权值小于最小权值，则更新最小权值的边，记录起点和终点
+                 if (!isVisited[j] && graph.matrix[v][j] < minDist[j]) {
+                     minDist[j] = graph.matrix[v][j];
+                     parent[j] = v;
+
+                     // 顶点加入队列
+                     queue.offer(j);
+                 }
+            }
         }
 
         // 输出mst的边
