@@ -61,6 +61,10 @@ public class KruskalAlgorithm {
         }
     }
 
+    /**
+     * 时间复杂度O(nlogn)，n是边数
+     * @return
+     */
     public Edge[] kruskal() {
         // 1、获取所有的边
         Edge[] edges = getEdges();
